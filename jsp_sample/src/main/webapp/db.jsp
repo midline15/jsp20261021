@@ -19,7 +19,7 @@
 		String db_pw = "test12#$";
 		conn = DriverManager.getConnection(db_url, db_id, db_pw);
 		stmt = conn.createStatement();
-		System.out.println("DB연결 완료");
+		/* System.out.println("DB연결 완료"); */
 
 	} catch (ClassNotFoundException e) {
 		System.out.println("JDBC 드라이버 로드오류");
