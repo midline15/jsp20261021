@@ -20,7 +20,10 @@
 
 	if (rs.next()) {
 		if (pwd.equals(rs.getString("PWD"))) {
-			
+			session.setAttribute("sessionId", rs.getString("USERID"));
+			session.setAttribute("sessionName", rs.getString("NAME"));
+			session.setAttribute("sessionRole", rs.getString("STATUS"));
+			session.setMaxInactiveInterval(60*30); // 30분
 			
 			response.sendRedirect("board-list.jsp");
 		} else {

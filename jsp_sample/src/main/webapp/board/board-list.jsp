@@ -6,22 +6,27 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-table, tr, td, th {
-	border: 2px solid black;
-	border-collapse: collapse;
-	padding: 5px 10px;
-	text-align: center;
-}
+	table, tr, td, th {
+		border: 2px solid black;
+		border-collapse: collapse;
+		padding: 5px 10px;
+		text-align: center;
+	}
 </style>
 </head>
 <body>
 	<%@ include file="../db.jsp"%>
+	<h4 style="display: inline-block;"><%= session.getAttribute("sessionName") %>님이 접속중입니다</h4>
+	<a href="login.jsp"><button>로그아웃</button></a>
+	<hr>
 	<h2>게시글 목록</h2>
 	<hr>
 	<table></table>
 	<%
 	ResultSet rs = null;
 	String sql = "select * from tbl_board";
+	String sessionRole = (String)session.getAttribute("sessionRole");
+	String sessionId = (String)session.getAttribute("sessionId");
 	rs = stmt.executeQuery(sql);
 	%>
 	<table>
@@ -37,15 +42,22 @@ table, tr, td, th {
 		<tr></tr>
 		<%
 		while (rs.next()) {
-			//out.println("<li>" + rs.getString("CONTENTS") + "</li>");%>
-			<tr>
-				<td><%= rs.getString("BOARDNO") %></td>
-				<td><a href="board-view.jsp?boardNo=<%= rs.getString("BOARDNO")%>"><%= rs.getString("TITLE") %></a></td>
-				<td><%= rs.getString("USERID") %></td>
-				<td><%= rs.getString("CNT") %></td>
-				<td><button onclick="fnRemove(<%= rs.getString("BOARDNO")%>)">삭제</button></td>
-			</tr>
-		<%}
+			//out.println("<li>" + rs.getString("CONTENTS") + "</li>");
+		%>
+		<tr>
+			<td><%=rs.getString("BOARDNO")%></td>
+			<td><a
+				href="board-view.jsp?boardNo=<%=rs.getString("BOARDNO")%>"><%=rs.getString("TITLE")%></a></td>
+			<td><%=rs.getString("USERID")%></td>
+			<td><%=rs.getString("CNT")%></td>
+			<td>
+				<% if(sessionId.equals(rs.getString("USERID")) || sessionRole.equals("A")){ %>
+				<button onclick="fnRemove(<%=rs.getString("BOARDNO")%>)">삭제</button>
+				<% } %>
+			</td>
+		</tr>
+		<%
+		}
 		%>
 	</table>
 	<div>

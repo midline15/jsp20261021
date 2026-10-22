@@ -19,6 +19,7 @@
 	%>
 
 	<form action="board-edit-result.jsp" name="form">
+		<input name="boardNo" type="hidden" value="<%= boardNo %>">
 		<div>
 			제목 : <input name="title" value="<%=rs.getString("TITLE")%>">
 		</div>
