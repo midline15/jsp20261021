@@ -21,6 +21,10 @@
 	<h4><%=rs.getString("CONTENTS")%></h4>
 	<h4><%=rs.getString("USERID")%></h4>
 	<h4><%=rs.getString("CDATETIME")%></h4>
+	<div>
+		<input onclick="fnEdit()" type="button" value="수정"> <input
+			onclick="fnRemove()" type="button" value="삭제">
+	</div>
 
 	<%
 	} else {
@@ -34,3 +38,15 @@
 	%>
 </body>
 </html>
+<script>
+	function fnRemove() {
+		if (!confirm("삭제?")) {
+			return;
+		} else {
+			location.href = "board-remove-result.jsp?boardNo=<%=boardNo%>";
+		}
+	}
+	function fnEdit() {
+		location.href = "board-edit.jsp?boardNo=<%=boardNo%>"
+	}
+</script>
