@@ -13,6 +13,10 @@
 	String userId = request.getParameter("userId");
 	String pwd = request.getParameter("pwd");
 	String name = request.getParameter("name");
+	String hobby[] = request.getParameterValues("hobby");
+	for(String n : hobby){
+		System.out.println(n);
+	}
 	
 	String sql = "insert into tbl_user(USERID, PWD, NAME, CDATETIME, UDATETIME) VALUES('"
 	+userId+"', '"+pwd+"', '"+name+"', SYSDATE, SYSDATE)";

@@ -24,6 +24,14 @@ input[readonly]{
 			이름<input name="name">
 		</div>
 		<div>
+			취미
+			<label><input type="checkbox" name="hobby" value="1">코</label>
+			<label><input type="checkbox" name="hobby" value="2">영</label>
+			<label><input type="checkbox" name="hobby" value="3">운</label>
+			<label><input type="checkbox" name="hobby" value="4">게</label>
+			<label><input type="checkbox" name="hobby" value="5">유</label>
+		</div>
+		<div>
 			<input onclick="fnJoin()" type="button" value="가입">
 		</div>
 	</form>

@@ -13,6 +13,11 @@ table, tr, td, th {
 	text-align: center;
 }
 
+td a {
+	text-decoration: none;
+	color: black;
+}
+
 .page a {
 	text-decoration: none;
 	color: black;
@@ -41,7 +46,7 @@ table, tr, td, th {
 	String kind = request.getParameter("kind") != null ? request.getParameter("kind") : "";
 	String kindSql = kind.isEmpty() ? "" : " and kind = " + kind;
 	String order = request.getParameter("order") == null? "boardNo" : request.getParameter("order");
-	String orderSql = " order by "+order;
+	String orderSql = " order by b."+order;
 	
 	/* 페이징에 사용할 변수 */
 	int pageSize = request.getParameter("size") == null || request.getParameter("size").isBlank()
@@ -61,7 +66,13 @@ table, tr, td, th {
 	/**/
 
 	ResultSet rs = null;
-	String sql = "select * from tbl_board" + keywordSql + kindSql + orderSql + pageSql;
+	String sql = "select b.*, nvl(cc, 0) as cc from tbl_board b left join (" +
+			" select boardno,"+
+	        " count(*) cc" +
+	    " from tbl_comment" +
+	    " group by boardno"+
+	" ) t on b.boardno = t.boardno " + keywordSql + kindSql + orderSql + pageSql;
+	//System.out.println(sql);
 	rs = stmt.executeQuery(sql);
 	int kindList[] = {1, 2, 3};
 	%>
@@ -116,7 +127,12 @@ table, tr, td, th {
 			<tr>
 				<td><%=rs.getString("BOARDNO")%></td>
 				<td><a
-					href="board-view.jsp?boardNo=<%=rs.getString("BOARDNO")%>"><%=rs.getString("TITLE")%></a></td>
+					href="board-view.jsp?boardNo=<%=rs.getString("BOARDNO")%>"><%=rs.getString("TITLE")%>
+					<%
+					if(rs.getInt("cc") !=0){
+						out.println("<span style='color: orange;'>["+ rs.getInt("cc") +"]</span>");
+					}
+					%></a></td>
 				<td><%=rs.getString("USERID")%></td>
 				<td><%=rs.getString("CNT")%></td>
 				<td>
